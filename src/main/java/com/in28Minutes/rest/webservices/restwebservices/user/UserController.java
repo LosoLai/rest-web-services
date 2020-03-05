@@ -22,7 +22,10 @@ public class UserController {
     // GET /users/{id}
     @GetMapping("/users/{id}")
     public User findUser(@PathVariable int id) {
-        return service.getUser(id);
+        User user = service.getUser(id);
+        if(user == null)
+            throw new UserNotFoundExpection("id-" + id);
+        return user;
     }
 
     // POST /users
