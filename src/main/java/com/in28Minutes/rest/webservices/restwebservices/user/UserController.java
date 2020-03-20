@@ -41,6 +41,14 @@ public class UserController {
         return ResponseEntity.created(location).build();
     }
 
+    // DELETE /users
+    @DeleteMapping("/users/{id}")
+    public void deleteUserByID(@PathVariable int id) {
+        User deletedUser = service.deleteUser(id);
+        if (deletedUser == null)
+            throw new UserNotFoundExpection("id-" + id);
+    }
+
     //GET /users/{id}/posts
     @GetMapping("/users/{id}/posts")
     public List<Post> retrieveAllPostByUserID(@PathVariable int id) {
