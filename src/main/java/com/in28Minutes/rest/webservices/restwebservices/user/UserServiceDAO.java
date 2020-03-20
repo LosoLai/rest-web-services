@@ -12,9 +12,15 @@ public class UserServiceDAO {
     private static int userCount = 3;
 
     static {
-        users.add(new User(1, "John", new Date()));
-        users.add(new User(2, "Ken", new Date()));
-        users.add(new User(3, "Niko", new Date()));
+        User user = new User(1, "John", new Date());
+        user.createPost(new Post("POST 01"));
+        users.add(user);
+        user = new User(2, "Ken", new Date());
+        user.createPost(new Post("POST 02"));
+        users.add(user);
+        user = new User(3, "Niko", new Date());
+        user.createPost(new Post("POST 03"));
+        users.add(user);
     }
 
     public List<User> findAll(){

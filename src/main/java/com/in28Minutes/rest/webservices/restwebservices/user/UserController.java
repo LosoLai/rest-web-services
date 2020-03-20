@@ -40,4 +40,35 @@ public class UserController {
 
         return ResponseEntity.created(location).build();
     }
+
+    //GET /users/{id}/posts
+    @GetMapping("/users/{id}/posts")
+    public List<Post> retrieveAllPostByUserID(@PathVariable int id) {
+        User user = service.getUser(id);
+        if(user == null)
+            throw new UserNotFoundExpection("id-" + id);
+        return user.getPosts();
+    }
+
+    //POST /users/{id}/posts
+    @PostMapping("/users/{id}/posts")
+    public User createPostForUser(@PathVariable int id) {
+        User user = service.getUser(id);
+        Post post = new Post("Automatic Post");
+        user.createPost(post);
+        if(user == null)
+            throw new UserNotFoundExpection("id-" + id);
+        return user;
+    }
+
+    //GET /users/{id}/posts/{post_id}
+    @GetMapping("/users/{id}/posts/{post_id}")
+    public Post getPostFormUser(@PathVariable int id,
+                                @PathVariable int post_id) {
+        User user = service.getUser(id);
+        Post post = user.getPosts().get(post_id);
+        if(user == null)
+            throw new UserNotFoundExpection("id-" + id);
+        return post;
+    }
 }
