@@ -1,6 +1,10 @@
 package com.in28Minutes.rest.webservices.restwebservices.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -22,11 +26,16 @@ public class UserController {
 
     // GET /users/{id}
     @GetMapping("/users/{id}")
-    public User findUser(@PathVariable int id) {
+    public Resource<User> findUser(@PathVariable int id) {
         User user = service.getUser(id);
         if(user == null)
             throw new UserNotFoundExpection("id-" + id);
-        return user;
+
+        //HATEOAS
+        Resource<User> resource = new Resource<User>(user);
+        ControllerLinkBuilder linkTo = linkTo(methodOn(this.getClass()).retrieveAll());
+        resource.add(linkTo.withRel("all-user"));
+        return resource;
     }
 
     // POST /users
