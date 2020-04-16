@@ -17,14 +17,12 @@ public class FilteringController {
 
     @GetMapping("/filtering")
     public MappingJacksonValue retrieveResource(){
-        Resource resource = new Resource("v1", "v2", "v3");
+        List<Resource> resource = Arrays.asList(new Resource("v1", "v2", "v3"));
 
         SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter
                                             .filterOutAllExcept("field1", "field2");
-        FilterProvider filters = new SimpleFilterProvider().addFilter("ResourceFilter", filter);
-        MappingJacksonValue mapping = new MappingJacksonValue(resource);
-        mapping.setFilters(filters);
-        return mapping;
+
+        return generateMapping(filter, resource);
     }
 
     @GetMapping("/filtering-list")
@@ -33,10 +31,16 @@ public class FilteringController {
                                             new Resource("v12", "v22", "v32"));
 
         SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter
-                .filterOutAllExcept("field2", "field3");
+                .filterOutAllExcept("field3");
+
+        return generateMapping(filter, list);
+    }
+
+    private MappingJacksonValue generateMapping(SimpleBeanPropertyFilter filter, List<Resource> resource){
         FilterProvider filters = new SimpleFilterProvider().addFilter("ResourceFilter", filter);
-        MappingJacksonValue mapping = new MappingJacksonValue(list);
+        MappingJacksonValue mapping = new MappingJacksonValue(resource);
         mapping.setFilters(filters);
+
         return mapping;
     }
 }
