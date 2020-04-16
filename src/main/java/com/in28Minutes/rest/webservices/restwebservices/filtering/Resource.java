@@ -1,14 +1,11 @@
 package com.in28Minutes.rest.webservices.restwebservices.filtering;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonFilter;
 
-@JsonIgnoreProperties("field1")
+@JsonFilter("ResourceFilter")
 public class Resource {
     private String field1;
     private String field2;
-
-    @JsonIgnore
     private String field3;
 
     public Resource(String v1, String v2, String v3) {
