@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PersonVersioningController {
 
+    // URI VERSIONING
     @GetMapping("/v1/person")
     public PersonV1 getPersonV1(){
         return new PersonV1("Bob Charlies");
@@ -16,6 +17,7 @@ public class PersonVersioningController {
         return new PersonV2(new Name("Bob", "Charlies"));
     }
 
+    // REQUEST PARAM VERSIONING
     @GetMapping(value="/person/param", params="version=1")
     public PersonV1 getParamV1(){
         return new PersonV1("Bob Charlies");
@@ -26,6 +28,7 @@ public class PersonVersioningController {
         return new PersonV2(new Name("Bob", "Charlies"));
     }
 
+    // HEADER VERSIONING
     @GetMapping(value="/person/header", headers="X-API-VERSION=1")
     public PersonV1 getHeaderV1(){
         return new PersonV1("Bob Charlies");
@@ -36,6 +39,7 @@ public class PersonVersioningController {
         return new PersonV2(new Name("Bob", "Charlies"));
     }
 
+    // MEDIA TYPE (aka accept header) VERSIONING
     @GetMapping(value="/person/produces", produces="application/app-v1+json")
     public PersonV1 getProducesV1(){
         return new PersonV1("Bob Charlies");
