@@ -35,4 +35,14 @@ public class PersonVersioningController {
     public PersonV2 getHeaderV2(){
         return new PersonV2(new Name("Bob", "Charlies"));
     }
+
+    @GetMapping(value="/person/produces", produces="application/app-v1+json")
+    public PersonV1 getProducesV1(){
+        return new PersonV1("Bob Charlies");
+    }
+
+    @GetMapping(value="/person/produces", produces="application/app-v2+json")
+    public PersonV2 getProducesV2(){
+        return new PersonV2(new Name("Bob", "Charlies"));
+    }
 }
